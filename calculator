@@ -1,0 +1,43 @@
+while True:
+  user_1 = input('Enter number: ')
+  if user_1.lower() == 'exit':
+     break
+  if user_1.lower() == 'help':
+      print('+ - addition')
+      print('- - subtraction')
+      print('* - multiplication')
+      print('/ - division')
+      print('exit - exit the program')
+      continue
+# first number
+  try:
+    a = float(user_1)
+  except ValueError:
+    print('Invalid number')
+    continue
+# ENTER VALUE (+ - * /)    
+  user_2 = input('Enter value (+ - * /): ')
+  if user_2 not in ['+', '-', '*', '/']:
+    print('Invalid operator')
+    continue
+# third number  
+  user_3 = input('Enter number: ')
+  try:
+    b = float(user_3)
+  except ValueError:
+    print('Invalid number')
+    continue
+# result    
+  if user_2 == '+':
+     print(a + b)
+  elif user_2 == '-':
+     print(a - b)
+  elif user_2 == '*':
+     print(a * b)
+  elif user_2 == '/':
+    if b == 0:
+      print('Cannot divide by zero')
+    else:
+       print(a / b)
+  else:
+      print('Invalid operator')
