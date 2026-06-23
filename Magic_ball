@@ -1,0 +1,85 @@
+import random
+import json
+from datetime import datetime, time
+magic_ball =('Hello! I am a magic ball and I know the answer to any of your questions. \n')
+modes = {
+  'normal':['yes', 'no', 'maybe', 'definitely'],
+  'sarcastic':['no fack', 'suck my ass', 'nothing'],
+  'wise':['yes if you are lucky', 'no if you are not lucky',]
+  }
+
+
+while True:
+  mode = input('Choose mode: normal, sarcastic, wise (or type exit): ')
+  if mode == 'exit':
+      print('Goodbye!')
+      exit()
+  if mode == "":
+      print('You did not choose a mode. Please try again.')
+      continue
+  if mode not in modes:
+      print('Wrong mode. Try again.')
+      continue
+  answers = modes[mode]
+  break     
+print(magic_ball)
+
+#print(answers)
+while True:
+  magic_ball_answer= input('Ask me your question: ')
+  command = magic_ball_answer.lower()
+  
+  if command == 'exit':
+    print('Goodbye!')
+    break
+
+  if command.startswith('history'):
+    parts = command.split()
+    
+    try:
+        with open('log.txt', 'r', encoding= 'utf-8') as f:
+          lines = f.readlines()
+
+        if len(parts) == 1:
+          print(''.join(lines[-5:]))
+        else:
+          n = int(parts[1])
+          print(''.join(lines[-n:]))
+      
+    except FileNotFoundError:
+      print('No history found.')
+    except ValueError:
+      print('Invalid number of lines.')
+    
+      
+    continue
+       
+  if magic_ball_answer == '':
+        print('You did not ask a real question.')
+        continue
+
+  answer = (random.choice(answers))
+  print(answer)
+  
+  now = datetime.now().strftime("%Y:%m:%d  %H:%M:%S")
+  
+  with open('log.txt', 'a',encoding='utf-8') as f:
+    f.write(f'{now} | {magic_ball_answer} | {answer}')
+
+  log_entry ={
+    'time': now,
+    'question': magic_ball_answer,
+    'answer':answer
+   }
+
+  try:
+     with open('log.json', 'r', encoding='utf-8') as f:
+       log = json.load(f)
+
+  except FileNotFoundError:
+     log = []
+
+  log.append(log_entry)
+
+  with open('log.json', 'w', encoding='utf-8') as f:
+     json.dump(log, f, indent=2, ensure_ascii=False)
