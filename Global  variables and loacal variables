@@ -1,0 +1,51 @@
+cart = []          # список товаров в корзине
+transactions = []  # история операций
+bonus_points = 0   # бонусные очки
+
+def add_item(item, price):
+  global cart
+  cart.append({'item': item, 'price': price})
+  transactions.append(f'Added {item}' + f' for {price}')
+  return cart
+print(add_item("Apple", 10.5))
+print(add_item("Banana", 5.5))
+print(add_item("Orange", 2.00))
+print(add_item("Apple", 2.30))
+print(add_item("Banana", 100))
+
+def remove_item(item_name):
+  global cart
+  for item in cart:
+    if item['item'] == item_name:
+      cart.remove(item)
+      transactions.append(f'Removed {item_name}')
+  return cart
+print(remove_item("Apple"))
+
+def checkout():
+  global cart, bonus_points
+  total = 0
+  for item in cart:
+    total += item['price']
+    bonus_points += item['price'] * 0.1
+  cart = []
+  transactions.append(f'Checkout: {total}')
+  return total
+print(f'Total{checkout()}')
+
+def show_cart():
+  return cart
+print(show_cart())
+
+def show_transactions():
+  return transactions
+print(show_transactions())
+
+def show_bonus():
+  return bonus_points
+print(show_bonus())
+
+
+cart = [{'item': 'TV', 'price': 300}, {'item': 'Book', 'price': 15}, {'item': 'Game', 'price': 45}]
+filter_items = filter(lambda item: item['price'] > 20, cart)
+print('Items > 20', list(filter_items))
